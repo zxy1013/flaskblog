@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="zxy@192.168.112.128:22 (1)">
+    <serverData>
+      <paths name="zxy@192.168.112.128:22 (1)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/virtualevirment_make/flask_blog" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
