@@ -6,6 +6,7 @@ from apps.goods.models import *
 from apps import create_app
 from exts import db
 
+
 app = create_app()
 manager = Manager(app=app)
 migrate = Migrate(app=app, db=db)

@@ -74,3 +74,43 @@ before_app_first_request 只在第一次请求中执行
 before_app_request 在所有请求中执行
 after_app_request 处理请求后 执行after_app_request
 teardown_app_request 在after_app_request后执行
+
+
+安装缓存包：
+    pip install redis
+    pip install flask-caching
+
+使用缓存：
+    1. Cache对象  exts的init文件中
+       from flask_caching import Cache
+       cache = Cache()
+    2. apps的init文件中
+    from exts import  cache
+    config = {
+        'CACHE_TYPE': 'redis',
+        'CACHE_REDIS_HOST': '127.0.0.1',
+        'CACHE_REDIS_PORT': 6379
+    }
+    def create_app():
+        cache.init_app(app,config)
+
+设置键值对缓存:
+    cache.set(key,value,timeout=second)
+    cache.set_many([(key,value),(key,value),(key,value),...])
+    获取缓存值:
+    cache.get(key)
+    cache.get_many(key1,key2,...)
+    删除缓存:
+    cache.delete(key)
+    cache.delete_many(key1,key2,...)
+    cache.clear()
+
+视图函数缓存:50s内访问/时不从后台访问，而是取缓存中的内容，超过50s后再进行重新加载
+    @app.route("/")
+    @cache.cached(timeout=50)
+    def index():
+        return render_template('index.html')
+
+启动redis后才可进行连接
+    进入D:\wendang\redis 输入cmd
+    redis-server redis.windows.conf

@@ -7,7 +7,7 @@ from apps.user.util.test_up_down import upload_qiniu, delete_qiniu
 from apps.user.util.util import user_type
 from settings import Config
 from apps.user.models import *
-from exts import db
+from exts import db, cache
 from apps.user.util.message_send import send_sms
 
 
@@ -125,7 +125,7 @@ def login():
             mobile = request.form.get('phone')
             code = request.form.get('code')
             # 先验证验证码
-            valid_code = session.get(mobile)
+            valid_code = cache.get(mobile)
             # print(valid_code)
             if code == valid_code:
                 # 查询数据库
@@ -154,7 +154,10 @@ def send_message():
     print(ret)
     if ret is not None:
         if ret[ "code" ] == 2:
-            session[ mobile ] = str(r)
+            # 使用缓存 过期时间为180s
+            # cache.set(key,value,timeout=s)
+            cache.set(mobile, str(r), timeout=180)
+            # session[ mobile ] = str(r)
             return jsonify(code=2,msg='短信发送成功')
         else:
             return jsonify(code=0,msg='提交失败')
